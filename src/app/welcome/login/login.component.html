@@ -1,0 +1,20 @@
+<div class="login-wrapper">
+  <form class="login" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <section class="title">
+      <h3 class="welcome">Welcome to</h3>
+      Visit Expense
+      <h5 class="hint">Use your Company ID to sign in or create one now</h5>
+    </section>
+    <div class="login-group">
+      <div class="auth-source select">
+        <select id="login-auth-source-1">
+          <option>Raj Barcode Systems Pvt Ltd</option>
+        </select>
+      </div>
+      <input class="username" type="text" formControlName="UserName" placeholder="Username" autocomplete="username">
+      <input class="password" type="password" formControlName="Password" placeholder="Password" autocomplete="current-password">
+
+      <button type="submit" class="btn btn-primary">NEXT</button>
+    </div>
+  </form>
+</div>

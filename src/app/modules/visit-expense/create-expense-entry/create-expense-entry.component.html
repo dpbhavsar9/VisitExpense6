@@ -1,0 +1,378 @@
+<form [formGroup]="MAIN_FORM" (ngSubmit)="MAIN_FORM_SUBMIT()" autocomplete="off">
+
+  <div class="card" style="margin-top: -15px">
+    <div class="card-header">
+      Add Visit Details
+    </div>
+    <div class="card-block">
+      <div class="card-text">
+        <mat-form-field>
+          <mat-label>Travel Type</mat-label>
+          <mat-select formControlName="TravelType">
+            <mat-option *ngFor="let item of travelType" value="{{item.value}}">
+              {{item.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Travel Type</mat-label>
+          <mat-select formControlName="Branch">
+            <mat-option *ngFor="let item of branch" value="{{item.Oid}}">
+              {{item.BranchName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Territory" formControlName="Territory" value="">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Place Visited*" formControlName="PlaceVisited" value="">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Grade" formControlName="Grade" value="">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Employee" formControlName="Employee" value="">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Designation" formControlName="Designation" value="">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Department" formControlName="Department" value="">
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-primary" (click)="open= true">Add Visit</button>
+
+  <form formGroupName="VISITS_FORM" (ngSubmit)="VISITS_FORM_SUBMIT()" autocomplete="off">
+    <div class="card">
+      <mat-horizontal-stepper [linear]="isLinear" #stepper>
+        <mat-step formGroupName="CUSTOMERS_FORM" [stepControl]="CUSTOMERS_FORM" [editable]="isEditable">
+          <ng-template matStepLabel>Customer</ng-template>
+          <div class="row">
+            <mat-form-field class="fullWidthInput">
+              <input matInput placeholder="Customer*" formControlName="Customer_Customer">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="fullWidthInput">
+              <input matInput placeholder="Address1" formControlName="Customer_Address1">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="fullWidthInput">
+              <input matInput placeholder="Address2" formControlName="Customer_Address2">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="fullWidthInput">
+              <input matInput placeholder="Address3" formControlName="Customer_Address3">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field>
+                <input matInput placeholder="Area" formControlName="Customer_Area">
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field>
+                <input matInput placeholder="City*" formControlName="Customer_City">
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field>
+                <input matInput placeholder="Pincode" formControlName="Customer_Pincode">
+              </mat-form-field>
+            </div>
+          </div>
+          <div>
+            <button class="btn btn-primary" [disabled]="!MAIN_FORM.get('VISITS_FORM').get('CUSTOMERS_FORM').valid" mat-button matStepperNext>Next</button>
+          </div>
+
+        </mat-step>
+        <mat-step formGroupName="CONTACTS_FORM" [stepControl]="CONTACTS_FORM" [editable]="isEditable">
+          <ng-template matStepLabel>Contact</ng-template>
+          <mat-form-field>
+            <input matInput placeholder="Contact Name*" formControlName="Contact_ContactName">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Designation" formControlName="Contact_Designation">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Department" formControlName="Contact_Department">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Mobile No*" formControlName="Contact_MobileNo">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="LandlineNo" formControlName="Contact_LandlineNo">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Email" formControlName="Contact_EmailID">
+          </mat-form-field>
+          <div>
+            <button class="btn btn-primary-outline" mat-button matStepperPrevious>Back</button>
+            <button class="btn btn-primary" [disabled]="!MAIN_FORM.get('VISITS_FORM').get('CONTACTS_FORM').valid" mat-button matStepperNext>Next</button>
+          </div>
+
+        </mat-step>
+        <mat-step formGroupName="SPECIFICATIONS_FORM" [stepControl]="SPECIFICATIONS_FORM" [editable]="isEditable">
+
+          <ng-template matStepLabel>Specs</ng-template>
+          <mat-form-field>
+            <mat-label>Source of Lead</mat-label>
+            <mat-select formControlName="Specifications_SourceOfLead">
+              <mat-option *ngFor="let item of sourceOfLead" value="{{item.value}}">
+                {{item.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Purpose Of Travel</mat-label>
+            <mat-select formControlName="Specifications_PurposeOfTravel">
+              <mat-option *ngFor="let item of purposeOfTravel" value="{{item.value}}">
+                {{item.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Start From</mat-label>
+            <mat-select formControlName="Specifications_StartFrom">
+              <mat-option *ngFor="let item of startFrom" value="{{item.value}}">
+                {{item.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Type of Customer</mat-label>
+            <mat-select formControlName="Specifications_TypeOfCustomer">
+              <mat-option *ngFor="let item of typeOfCustomer" value="{{item.value}}">
+                {{item.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Consumable</mat-label>
+            <mat-select formControlName="Specifications_Consumable">
+              <mat-option *ngFor="let item of consumable" value="{{item.value}}">
+                {{item.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Call Status</mat-label>
+            <mat-select formControlName="Specifications_CallStatus">
+              <mat-option *ngFor="let item of callStatus" value="{{item.value}}">
+                {{item.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Segment</mat-label>
+            <mat-select formControlName="Specifications_Segment">
+              <mat-option *ngFor="let item of segment" value="{{item.value}}">
+                {{item.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div>
+            <button class="btn btn-primary-outline" mat-button matStepperPrevious>Back</button>
+            <button class="btn btn-primary" [disabled]="!MAIN_FORM.get('VISITS_FORM').get('SPECIFICATIONS_FORM').valid" mat-button matStepperNext>Next</button>
+          </div>
+
+        </mat-step>
+        <mat-step formGroupName="TIMINGS_FORM" [stepControl]="TIMINGS_FORM" [editable]="isEditable">
+          <ng-template matStepLabel>Timings</ng-template>
+          <mat-form-field>
+            <input matInput formControlName="Timings_ReceivedDate" [matDatepicker]="picker1" placeholder="Lead Received Date">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #picker1></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="Timings_StartDate" [matDatepicker]="picker2" placeholder="Start Date">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #picker2></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="Timings_StartTime" placeholder="Start Time" (click)="open('Timings_StartTime')" readonly>
+            <clr-icon shape="clock" (click)="open('Timings_StartTime')" matSuffix></clr-icon>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="Timings_ReachTime" placeholder="Reach Time" (click)="open('Timings_ReachTime')" readonly>
+            <clr-icon shape="clock" (click)="open('Timings_ReachTime')" matSuffix></clr-icon>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="Timings_LeaveTime" placeholder="Leave Time" (click)="open('Timings_LeaveTime')" readonly>
+            <clr-icon shape="clock" (click)="open('Timings_LeaveTime')" matSuffix></clr-icon>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="Timings_EndDate" [matDatepicker]="picker3" placeholder="End Date">
+            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #picker3></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="Timings_EndTime" placeholder="End Time" (click)="open('Timings_EndTime')" readonly>
+            <clr-icon shape="clock" (click)="open('Timings_EndTime')" matSuffix></clr-icon>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="Timings_TruthTime" placeholder="Time of Truth">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="Timings_TotalTravelTime" placeholder="Total Travel Time">
+          </mat-form-field>
+          <div>
+            <button class="btn btn-primary-outline" mat-button matStepperPrevious>Back</button>
+            <button class="btn btn-primary" mat-button [disabled]="!MAIN_FORM.get('VISITS_FORM').get('TIMINGS_FORM').valid" matStepperNext>Next</button>
+          </div>
+        </mat-step>
+        <mat-step formGroupName="ACTIONS_FORM" [stepControl]="ACTIONS_FORM" [editable]="isEditable">
+          <ng-template matStepLabel>Actions</ng-template>
+          <mat-form-field>
+            <input matInput formControlName="Actions_ActionTaken" placeholder="Action Taken">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="Actions_NextActionPlan" placeholder="Next Action Plan">
+          </mat-form-field>
+          <div>
+            <button class="btn btn-primary-outline" mat-button matStepperPrevious>Back</button>
+            <button class="btn btn-primary" [disabled]="!MAIN_FORM.get('VISITS_FORM').get('ACTIONS_FORM').valid" mat-button matStepperNext>Next</button>
+          </div>
+        </mat-step>
+        <mat-step formGroupName="MODELS_FORM" [stepControl]="MODELS_FORM" [editable]="isEditable">
+          <ng-template matStepLabel>Models</ng-template>
+          <mat-form-field>
+            <input matInput formControlName="Model_ModelNo" placeholder="Model No">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="Model_SerialNo" placeholder="Serial No">
+          </mat-form-field>
+          <div>
+            <button class="btn btn-primary-outline" mat-button matStepperPrevious>Back</button>
+            <button class="btn btn-primary" [disabled]="!MAIN_FORM.get('VISITS_FORM').get('MODELS_FORM').valid" mat-button matStepperNext>Next</button>
+          </div>
+        </mat-step>
+        <mat-step formGroupName="PROPOSALS_FORM" [stepControl]="PROPOSALS_FORM" [editable]="isEditable">
+          <ng-template matStepLabel>Proposals</ng-template>
+          <mat-form-field>
+            <input matInput formControlName="Proposal_ItemsProposed" placeholder="Proposed Items">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="Proposal_Make" placeholder="Make/Model">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Price Proposed</mat-label>
+            <mat-select formControlName="Proposal_PriceProposed">
+              <mat-option *ngFor="let item of priceProposed" value="{{item.value}}">
+                {{item.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="Proposal_Price" placeholder="Proposed Proce">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Proposed Mode</mat-label>
+            <mat-select formControlName="Proposal_Mode">
+              <mat-option *ngFor="let item of modeProposed" value="{{item.value}}">
+                {{item.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="Proposal_Quotation" placeholder="Propsed Quotation">
+          </mat-form-field>
+          <div>
+            <button class="btn btn-primary" (click)="VISITS_FORM_SUBMIT()" mat-button>Save</button>
+            <button class="btn btn-primary-outline" mat-button matStepperPrevious>Back</button>
+            <button class="btn btn-primary-outline" mat-button (click)="stepper.reset()">Reset</button>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+  </form>
+</form>
+<hr>
+
+<div class="row">
+  <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" *ngFor="let visit of
+    dataFinal">
+    <div class="card">
+      <div class="card-block">
+        <h3 class="card-title">{{visit.Customer_Customer}}</h3>
+        <p class="card-text">
+          <strong>Address</strong>
+          {{visit.Customer_Address1}}, {{visit.Customer_Address2}}, {{visit.Customer_Address3}}, {{visit.Customer_Area}}, {{visit.Customer_City}}
+          - {{visit.Customer_Pincode}}
+          <br>
+          <strong>Contact</strong>
+          <clr-signpost>
+            <clr-signpost-content *clrIfOpen="openState">
+              <h3 style="margin-top: 0">Contact Details</h3>
+              <p>
+                <strong>Contact Person </strong>{{visit.Contact_ContactName}}
+                <br>
+                <strong>Designation </strong>{{visit.Contact_Designation}}
+                <br>
+                <strong>Department </strong>{{visit.Contact_Department}}
+                <br>
+                <strong>Mobile No </strong>{{visit.Contact_MobileNo}}
+                <br>
+                <strong>Landline No </strong>{{visit.Contact_LandlineNo}}
+                <br>
+                <strong>EmailID</strong>{{visit.Contact_EmailID}}
+                <br>
+              </p>
+            </clr-signpost-content>
+          </clr-signpost>
+        </p>
+      </div>
+      <div class="card-footer">
+        <a href="..." class="btn btn-sm btn-link">Add Expense</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- List View Start -->
+<!-- <div class="">
+  <div class="card">
+    <ngx-datatable #table class="material"
+      [rows]="dataFinal" [columns]="columns"
+      [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+      [rowHeight]="50" [reorderable]="'true'" [limit]="7" [scrollbarH]="true"
+      [scrollbarV]="true"
+      [displayCheck]="displayCheck" (activate)="onActivate($event)"
+      [loadingIndicator]="loadingIndicator" (select)='onSelect($event)'>
+      <ngx-datatable-column name="LineID" prop="Specifications_LineID"></ngx-datatable-column>
+      <ngx-datatable-column name="Customer" prop="Customer_Customer"></ngx-datatable-column>
+      <ngx-datatable-column name="Address1" prop="Customer_Address1"></ngx-datatable-column>
+      <ngx-datatable-column name="Address2" prop="Customer_Address2"></ngx-datatable-column>
+      <ngx-datatable-column name="Address3" prop="Customer_Address3"></ngx-datatable-column>
+      <ngx-datatable-column name="Area" prop="Customer_Area"></ngx-datatable-column>
+      <ngx-datatable-column name="City" prop="Customer_City"></ngx-datatable-column>
+      <ngx-datatable-column name="Pincode" prop="Customer_Pincode"></ngx-datatable-column>
+      <ngx-datatable-column name="Source of Lead"
+        prop="Specifications_SourceOfLead"></ngx-datatable-column>
+      <ngx-datatable-column name="Purpose of Travel"
+        prop="Specifications_PurposeOfTravel"></ngx-datatable-column>
+      <ngx-datatable-column name="Start From" prop="Specifications_StartFrom"></ngx-datatable-column>
+      <ngx-datatable-column name="Type of Customer"
+        prop="Specifications_TypeOfCustomer"></ngx-datatable-column>
+      <ngx-datatable-column name="Consumable" prop="Specifications_Consumable"></ngx-datatable-column>
+      <ngx-datatable-column name="Call Status" prop="Specifications_CallStatus"></ngx-datatable-column>
+      <ngx-datatable-column name="Segment" prop="Specifications_Segment"></ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div> -->
+
+
+<!-- List View End -->

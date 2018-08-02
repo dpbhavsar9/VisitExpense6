@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CookieService } from '../../node_modules/ngx-cookie';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  constructor(private _cookieService: CookieService) {
+    this._cookieService.removeAll();
+  }
 }
