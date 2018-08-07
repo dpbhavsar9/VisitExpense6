@@ -30,19 +30,21 @@ export class CreateExpenseEntryComponent implements OnInit {
 
   // FORMS
   MAIN_FORM: FormGroup;
-  // CUSTOMERS_FORM: FormGroup;
-  // CONTACTS_FORM: FormGroup;
-  // SPECIFICATIONS_FORM: FormGroup;
-  // TIMINGS_FORM: FormGroup;
-  // ACTIONS_FORM: FormGroup;
-  // MODELS_FORM: FormGroup;
-  // PROPOSALS_FORM: FormGroup;
 
   // VARIABLES
-  LineID = 1;
+  LineID = 0;
+  selectedLineID = 0;
   isLinear = false;
   isEditable = true;
   isAddVisitFormVisible = false;
+  isItemFormVisible = false;
+  isHeaderFormVisible = true;
+  Timings_StartDate_Object: any;
+  // FORM VARIABLES
+  body = {
+    headerBody: {},
+    itemBody: []
+  };
 
   // STUBS
   travelType =
@@ -104,22 +106,24 @@ export class CreateExpenseEntryComponent implements OnInit {
     { value: 'Written', viewValue: 'Written' },
   ];
 
+
   constructor(private _formBuilder: FormBuilder, private atp: AmazingTimePickerService) { }
 
   ngOnInit() {
 
     // MAIN FORM
     this.MAIN_FORM = new FormGroup({
-      TravelType: new FormControl(null, Validators.required),
-      Branch: new FormControl(null, Validators.required),
-      Territory: new FormControl(),
-      PlaceVisited: new FormControl(null, Validators.required),
-      Grade: new FormControl({ disabled: true }),
-      Employee: new FormControl({ disabled: true }),
-      Designation: new FormControl({ disabled: true }),
-      Department: new FormControl({ disabled: true }),
-      VISITS_ARRAY: new FormControl([]),
-      VISITS_FORM: new FormGroup({
+      HEADER_FORM: new FormGroup({
+        TravelType: new FormControl({ value: null, disabled: !this.isHeaderFormVisible }, Validators.required),
+        Branch: new FormControl({ value: null, disabled: !this.isHeaderFormVisible }, Validators.required),
+        Territory: new FormControl({ value: null, disabled: !this.isHeaderFormVisible }),
+        PlaceVisited: new FormControl({ value: null, disabled: !this.isHeaderFormVisible }, Validators.required),
+        Grade: new FormControl({ disabled: true }),
+        Employee: new FormControl({ disabled: true }),
+        Designation: new FormControl({ disabled: true }),
+        Department: new FormControl({ disabled: true })
+      }),
+      ITEM_FORM: new FormGroup({
         CUSTOMERS_FORM: new FormGroup({
           Customer_Customer: new FormControl(null, Validators.required),
           Customer_Address1: new FormControl(),
@@ -155,14 +159,13 @@ export class CreateExpenseEntryComponent implements OnInit {
           Timings_LeaveTime: new FormControl(),
           Timings_EndDate: new FormControl(),
           Timings_EndTime: new FormControl(),
-          Timings_TruthTime: new FormControl(),
-          Timings_TotalTravelTime: new FormControl()
+          Timings_TruthTime: new FormControl({ disabled: true }),
+          Timings_TotalTravelTime: new FormControl({ disabled: true })
         }),
         ACTIONS_FORM: new FormGroup({
           Actions_ActionTaken: new FormControl(),
           Actions_NextActionPlan: new FormControl()
         }),
-        MODELS_ARRAY: new FormControl([]),
         MODELS_FORM: new FormGroup({
           Model_ModelNo: new FormControl(),
           Model_SerialNo: new FormControl()
@@ -179,28 +182,64 @@ export class CreateExpenseEntryComponent implements OnInit {
     });
   }
 
+  Update_StartDate_Object() {
+    this.Timings_StartDate_Object = new Date(this.MAIN_FORM.get('ITEM_FORM').get('TIMINGS_FORM').get('Timings_StartDate').value);
+    console.log(this.Timings_StartDate_Object);
+  }
+
+  HEADER_FORM_SUBMIT() {
+    this.body.headerBody = {
+      TravelType: this.MAIN_FORM.get('HEADER_FORM').get('TravelType').value,
+      Branch: this.MAIN_FORM.get('HEADER_FORM').get('Branch').value,
+      Territory: this.MAIN_FORM.get('HEADER_FORM').get('Territory').value,
+      PlaceVisited: this.MAIN_FORM.get('HEADER_FORM').get('PlaceVisited').value,
+      Grade: this.MAIN_FORM.get('HEADER_FORM').get('Grade').value,
+      Employee: this.MAIN_FORM.get('HEADER_FORM').get('Employee').value,
+      Designation: this.MAIN_FORM.get('HEADER_FORM').get('Designation').value,
+      Department: this.MAIN_FORM.get('HEADER_FORM').get('Department').value
+    };
+    this.isHeaderFormVisible = false;
+    // console.log(this.body.headerBody);
+  }
+
+  ITEM_FORM_SUBMIT() {
+    this.LineID++;
+    this.body.itemBody.push({
+      LINEID: this.LineID,
+      CUSTOMERS: this.MAIN_FORM.get('ITEM_FORM').get('CUSTOMERS_FORM').value,
+      CONTACTS: this.MAIN_FORM.get('ITEM_FORM').get('CONTACTS_FORM').value,
+      SPECIFICATIONS: this.MAIN_FORM.get('ITEM_FORM').get('SPECIFICATIONS_FORM').value,
+      TIMINGS: this.MAIN_FORM.get('ITEM_FORM').get('TIMINGS_FORM').value,
+      ACTIONS: this.MAIN_FORM.get('ITEM_FORM').get('ACTIONS_FORM').value,
+      MODELS: this.MAIN_FORM.get('ITEM_FORM').get('MODELS_FORM').value,
+      PROPOSALS: this.MAIN_FORM.get('ITEM_FORM').get('PROPOSALS_FORM').value
+    });
+    console.log(this.body.itemBody);
+    console.log('-----------------------', this.body);
+  }
+
   open(formcontrolName) {
     const amazingTimePicker = this.atp.open();
     amazingTimePicker.afterClose().subscribe(time => {
 
       switch (formcontrolName) {
         case 'Timings_StartTime':
-          this.MAIN_FORM.get('VISITS_FORM').get('TIMINGS_FORM').patchValue({
+          this.MAIN_FORM.get('ITEM_FORM').get('TIMINGS_FORM').patchValue({
             Timings_StartTime: time
           });
           break;
         case 'Timings_ReachTime':
-          this.MAIN_FORM.get('VISITS_FORM').get('TIMINGS_FORM').patchValue({
+          this.MAIN_FORM.get('ITEM_FORM').get('TIMINGS_FORM').patchValue({
             Timings_ReachTime: time
           });
           break;
         case 'Timings_LeaveTime':
-          this.MAIN_FORM.get('VISITS_FORM').get('TIMINGS_FORM').patchValue({
+          this.MAIN_FORM.get('ITEM_FORM').get('TIMINGS_FORM').patchValue({
             Timings_LeaveTime: time
           });
           break;
         case 'Timings_EndTime':
-          this.MAIN_FORM.get('VISITS_FORM').get('TIMINGS_FORM').patchValue({
+          this.MAIN_FORM.get('ITEM_FORM').get('TIMINGS_FORM').patchValue({
             Timings_EndTime: time
           });
           break;
@@ -209,13 +248,7 @@ export class CreateExpenseEntryComponent implements OnInit {
   }
 
   onSelect() { }
-  MAIN_FORM_SUBMIT() { }
-  VISITS_FORM_SUBMIT() {
-    console.log(this.MAIN_FORM.value);
-    this.MAIN_FORM.get('VISITS_FORM').reset();
-    this.isAddVisitFormVisible = false;
-  }
-  createVisitExpense() { }
   onActivate() { }
+  createVisitExpense() { }
 }
 
